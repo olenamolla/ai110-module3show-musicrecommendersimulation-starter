@@ -19,15 +19,52 @@ Replace this paragraph with your own summary of what your version does.
 
 Explain your design in plain language.
 
+Real-world recommenders like Spotify or Youtube use massive amounts of data and they track every song users skip, replay, add to playlist. Then, they find other users who behave like you and suggest what they listened to next. That's called collaborative filtering. My version is simpler and does not need any listening history. Instead it uses content-based filtering. It looks directly at the attributes of each song and compares them to what the user says they want. For each song, it computes a score using a weighted formula: genre match counts the most because genre is hard preference that rarely changes, mood comes second because it reflects the user's current vibe, and energy and acousticness fill the rest with proximity math (songs with the user's target values score higher). Then it sorts all the scores and returns the top K results. 
+
 Some prompts to answer:
 
 - What features does each `Song` use in your system
   - For example: genre, mood, energy, tempo
+
+  * genre — matched against user's favorite genre (worth 35% of score)
+  * mood — matched against user's favorite mood (worth 25% of score)
+  * energy — proximity to user's target energy (worth 25% of score)
+  * acousticness — proximity to user's acoustic preference (worth 15% of score)
+  * tempo_bpm — used as tie-breaker only
+  * id, title, artist — display only, not scored
+  * valence, danceability — loaded but unused in scoring
+
+
 - What information does your `UserProfile` store
+
+  * favorite_genre — binary match against song.genre
+  * favorite_mood — binary match against song.mood
+  * target_energy — numeric target (0.0–1.0) for energy proximity
+  * likes_acoustic — converted to 1.0 (acoustic) or 0.0 (electronic) for proximity scoring
+
 - How does your `Recommender` compute a score for each song
 - How do you choose which songs to recommend
 
 You can include a simple diagram or bullet list if helpful.
+
+---
+
+### Algorithm Recipe
+
+Every song is scored out of 4.5 points:
+
+* `+2.0` — genre matches the user's favorite genre
+* `+1.0` — mood matches the user's mood
+* `+0 to 1.0` — energy is close to the user's target (`1.0 - difference`)
+* `+0 to 0.5` — acousticness is close to the user's preference
+
+Songs are then sorted highest to lowest and the top K are returned with a short reason explaining why each was picked.
+
+### Potential Biases
+
+* Genre carries the most weight, so a perfect mood and energy match in a different genre can still lose to a weaker same-genre song
+* Mood is all-or-nothing — "intense" and "energetic" feel similar but the system treats them as completely different
+* Results can lack variety — the system always picks the closest matches with no built-in diversity
 
 ---
 
