@@ -101,6 +101,14 @@ pytest
 
 You can add more tests in `tests/test_recommender.py`.
 
+### Tests Performed (5 total — all passing)
+
+* `test_recommend_returns_songs_sorted_by_score` — pop/happy user gets the pop song ranked first
+* `test_explain_recommendation_returns_non_empty_string` — explanation is a non-empty string
+* `test_no_genre_match_scores_lower` — a non-matching genre always ranks below a matching one
+* `test_recommend_returns_k_results` — `recommend(k=1)` returns 1 song, `recommend(k=2)` returns 2
+* `test_perfect_match_scores_higher_than_partial` — full genre+mood+energy match outscores a partial match
+
 ---
 
 ## Experiments You Tried

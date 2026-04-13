@@ -59,3 +59,45 @@ def test_explain_recommendation_returns_non_empty_string():
     explanation = rec.explain_recommendation(user, song)
     assert isinstance(explanation, str)
     assert explanation.strip() != ""
+
+
+def test_no_genre_match_scores_lower():
+    """A song with a non-matching genre should score lower than one that matches."""
+    user = UserProfile(
+        favorite_genre="pop",
+        favorite_mood="happy",
+        target_energy=0.8,
+        likes_acoustic=False,
+    )
+    rec = make_small_recommender()
+    results = rec.recommend(user, k=2)
+    # pop song should outscore lofi song
+    assert results[0].genre == "pop"
+    assert results[1].genre == "lofi"
+
+
+def test_recommend_returns_k_results():
+    """recommend() should return exactly k songs."""
+    user = UserProfile(
+        favorite_genre="pop",
+        favorite_mood="happy",
+        target_energy=0.8,
+        likes_acoustic=False,
+    )
+    rec = make_small_recommender()
+    assert len(rec.recommend(user, k=1)) == 1
+    assert len(rec.recommend(user, k=2)) == 2
+
+
+def test_perfect_match_scores_higher_than_partial():
+    """A song matching genre, mood, and energy should outscore one matching only energy."""
+    user = UserProfile(
+        favorite_genre="pop",
+        favorite_mood="happy",
+        target_energy=0.8,
+        likes_acoustic=False,
+    )
+    rec = make_small_recommender()
+    results = rec.recommend(user, k=2)
+    # First result should be the pop/happy song, not the lofi/chill one
+    assert results[0].title == "Test Pop Track"
