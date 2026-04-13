@@ -111,6 +111,43 @@ You can add more tests in `tests/test_recommender.py`.
 
 ---
 
+## Terminal Output Screenshots
+
+### Screenshot 1 — Algorithm Flowchart
+<a href="screenshots/1.png" target="_blank"><img src='screenshots/1.png' title='Algorithm Flowchart' width='' alt='Algorithm Flowchart' /></a>
+
+Full pipeline from user preferences → scoring rules → top K results.
+
+---
+
+### Screenshot 2 — High-Energy Pop Profile (top 4)
+<a href="screenshots/2.png" target="_blank"><img src='screenshots/2.png' title='High-Energy Pop Profile Top 4' width='' alt='High-Energy Pop Profile Top 4' /></a>
+
+Sunrise City ranks #1 (4.39/4.50) — genre, mood, and energy all match. Gym Hero appears at #2 despite an intense mood because genre and energy still score high.
+
+---
+
+### Screenshot 3 — High-Energy Pop Profile (bottom 2)
+<a href="screenshots/3.png" target="_blank"><img src='screenshots/3.png' title='High-Energy Pop Profile Bottom 2' width='' alt='High-Energy Pop Profile Bottom 2' /></a>
+
+Dirt Road Memory and Broken Glass Blues score low — no genre or mood match, only partial energy credit.
+
+---
+
+### Screenshot 4 — Maximum Acoustic Edge Case
+<a href="screenshots/4.png" target="_blank"><img src='screenshots/4.png' title='Maximum Acoustic Edge Case' width='' alt='Maximum Acoustic Edge Case' /></a>
+
+Empty Porch (folk) ranks #1 via genre match. Moonlit Sonata and Dirt Road Memory follow due to high acousticness scores.
+
+---
+
+### Screenshot 5 — Maximum Acoustic Profile (last result)
+<a href="screenshots/5.png" target="_blank"><img src='screenshots/5.png' title='Maximum Acoustic Profile Last Result' width='' alt='Maximum Acoustic Profile Last Result' /></a>
+
+Honey and Smoke scores 1.31/4.50 — no genre or mood match, partial credit from acousticness proximity only.
+
+---
+
 ## Experiments You Tried
 
 Use this section to document the experiments you ran. For example:
