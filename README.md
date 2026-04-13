@@ -138,6 +138,14 @@ Write 1 to 2 paragraphs here about what you learned:
 - about how recommenders turn data into predictions
 - about where bias or unfairness could show up in systems like this
 
+The biggest learning moment was realizing that the scoring logic wasn't the hard part but the data was. Once I built the scoring function, it worked exactly as written. But the results didn't always feel right, and that had nothing to do with the code. It was because the labels in the CSV didn't capture the full picture of a song. "Gym Hero" is tagged as pop and intense, so it scores well for a happy pop user on paper, but nobody would actually recommend it for that mood. That gap between what the numbers say and what a human would feel was the most surprising thing about this project.
+
+Using AI tools helped a lot with the structural parts: setting up the scoring formula, understanding proximity math, and thinking through edge cases. But I had to double-check anything involving weights and expected outputs, because the AI would sometimes suggest a formula that looked right but didn't match what I actually wanted to test. Running the code myself and checking whether "Gym Hero" or "Moonlit Sonata" showed up where I expected was more useful than trusting any explanation alone.
+
+What surprised me most was how quickly a simple four-feature formula started to feel like a real recommender. It's just math, but when you run it against real song names and see "Midnight Coding" rise to the top for a chill user, it feels intelligent. That illusion breaks fast once you look at the edge cases — but it helped me understand why people trust these systems more than they probably should.
+
+If I extended this project, I'd try grouping similar moods together so "chill" and "relaxed" score as partial matches, and I'd add a diversity penalty so the top 5 doesn't always pull from the same genre. I'd also want to test what happens with a much larger catalog — most of the weaknesses here came from having only 1–2 songs per genre, not from the algorithm itself.
+
 
 ---
 
