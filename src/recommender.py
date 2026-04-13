@@ -38,12 +38,40 @@ class Recommender:
         self.songs = songs
 
     def recommend(self, user: UserProfile, k: int = 5) -> List[Song]:
-        # TODO: Implement recommendation logic
-        return self.songs[:k]
+        """Score all songs using UserProfile and return top k sorted by score."""
+        user_prefs = {
+            "genre":         user.favorite_genre,
+            "mood":          user.favorite_mood,
+            "energy":        user.target_energy,
+            "acoustic_level": 1.0 if user.likes_acoustic else 0.0,
+        }
+        scored = sorted(
+            self.songs,
+            key=lambda song: score_song(user_prefs, {
+                "genre":        song.genre,
+                "mood":         song.mood,
+                "energy":       song.energy,
+                "acousticness": song.acousticness,
+            })[0],
+            reverse=True,
+        )
+        return scored[:k]
 
     def explain_recommendation(self, user: UserProfile, song: Song) -> str:
-        # TODO: Implement explanation logic
-        return "Explanation placeholder"
+        """Return a plain-English explanation of why this song was recommended."""
+        user_prefs = {
+            "genre":         user.favorite_genre,
+            "mood":          user.favorite_mood,
+            "energy":        user.target_energy,
+            "acoustic_level": 1.0 if user.likes_acoustic else 0.0,
+        }
+        _, reasons = score_song(user_prefs, {
+            "genre":        song.genre,
+            "mood":         song.mood,
+            "energy":       song.energy,
+            "acousticness": song.acousticness,
+        })
+        return ", ".join(reasons)
 
 def load_songs(csv_path: str) -> List[Dict]:
     """Read songs.csv and return a list of song dicts with numeric fields converted."""
